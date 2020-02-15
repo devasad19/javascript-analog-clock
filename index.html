@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>analog clock - javascript</title>
+
+	<style type="text/css">
+
+
+
+.clock {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 8% auto 0;
+    border: 14px solid #636060;
+    box-shadow: 0 2vw 4vw -1vw rgb(0, 0, 0, .8);
+    position: relative;
+}
+
+.dot {
+    background: #313030;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    box-shadow: 0 2px 4px -1px black;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.hour-hand {
+    position: absolute;
+    background: #000;
+    width: 5px;
+    height: 56px;
+    top: 88px;
+    right: 50%;
+    margin-right: -2px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    transform-origin: 50% 62px;
+}
+
+.minute-hand {
+    position: absolute;
+    background: #383ef9;
+    width: 4px;
+    height: 88px;
+    top: 56px;
+    right: 50%;
+    margin-right: -2px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    transform-origin: 50% 94px;
+}
+
+.second-hand {
+    position: absolute;
+    background: #f52d2d;
+    width: 3px;
+    height: 118px;
+    top: 25px;
+    right: 50%;
+    margin-right: -2px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    transform-origin: 50% 125px;
+}
+
+span {
+    display: inline-block;
+    position: absolute;
+    /* background: #333; */
+    font-family: "Poiret One";
+    font-size: 22px;
+    font-weight: 700;
+    z-index: 4;
+}
+
+span.h12 {
+    top: 30px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+span.h3 {
+    top: 50%;
+    margin-top: -15px;
+    right: 30px;
+}
+
+span.h6 {
+    top: 50%;
+    margin-top: -15px;
+    left: 30px;
+}
+
+span.h9 {
+    bottom: 30px;
+    right: 50%;
+}
+
+.date {
+    width: 80px;
+    height: 15px;
+    background: #6f6767;
+    position: absolute;
+    top: 27%;
+    right: 50%;
+    margin-right: -40px;
+    color: #fff;
+    font-family: "Poiret One";
+    padding: 2px 4px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.day {
+    width: 80px;
+    height: 15px;
+    background: #6f6767;
+    position: absolute;
+    bottom: 27%;
+    right: 50%;
+    margin-right: -40px;
+    color: #fff;
+    font-family: "Poiret One";
+    padding: 2px 4px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 2px;
+}
+
+
+
+.diallines {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: #3a3838;
+    left: 50%;
+    margin-left: -1px;
+    z-index: 2;
+    transform-origin: 50% 150px;
+}
+
+.diallines:nth-of-type(5n) {
+    position: absolute;
+    width: 4px;
+    height: 18px;
+    background: #3a3838;
+    left: 50%;
+    margin-left: -2px;
+    z-index: 2;
+    transform-origin: 50% 150px;
+}
+
+	</style>
+</head>
+<body>
+
+
+	<div class="clock">
+		<div>
+			<div class="date"></div>
+			<div class="day"></div>
+		</div>
+		<div class="dot"></div>
+
+		<div>
+			<div class="hour-hand"></div>
+			<div class="minute-hand"></div>
+			<div class="second-hand"></div>
+		</div>
+		<div>
+			<span class="h3">3</span>
+			<span class="h6">6</span>
+			<span class="h9">9</span>
+			<span class="h12">12</span>
+		</div>
+		<div class="diallines"></div>
+
+	</div>
+
+
+
+<script type="text/javascript">
+	
+	var diallines = document.getElementsByClassName('diallines');
+	var clockE1 = document.getElementsByClassName('clock')[0];
+
+	for(let i=0; i<60; i++){
+		clockE1.innerHTML += "<div class='diallines'></div>";
+		diallines[i].style.transform = "rotate(" +6 * i + "deg)";
+	}
+
+	function clock(){
+		var weekDay = new Array(7),
+		d = new Date(),
+		h = d.getHours(),
+		m = d.getMinutes(),
+		s = d.getSeconds(),
+		date = d.getDate(),
+		month = d.getMonth() +1,
+		year = d.getFullYear(),
+
+		hDeg = h * 30 + m * (360/720),
+		mDeg = m * 30 + s * (360/720),
+		sDeg = s * 6,
+
+		hE1 = document.querySelector(".hour-hand"),
+		mE1 = document.querySelector(".minute-hand"),
+		sE1 = document.querySelector(".second-hand"),
+
+		dateE1 = document.querySelector(".date"),
+		dayE1 = document.querySelector(".day");
+
+
+		weekDay[0] = "Sunday";
+		weekDay[1] = "Monday";
+		weekDay[2] = "Tuesday";
+		weekDay[3] = "Wednesday";
+		weekDay[4] = "Thursday";
+		weekDay[5] = "Friday";
+		weekDay[6] = "Saturday";
+
+		var day = weekDay[d.getDay()];
+		hE1.style.transform = "rotate("+hDeg+"deg)";
+		mE1.style.transform = "rotate("+mDeg+"deg)";
+		sE1.style.transform = "rotate("+sDeg+"deg)";
+
+		dateE1.innerHTML = date+"/"+month+"/"+year;
+		dayE1.innerHTML = day;
+	}
+
+	setInterval("clock()", 1000);
+</script>
+
+</body>
+</html>
